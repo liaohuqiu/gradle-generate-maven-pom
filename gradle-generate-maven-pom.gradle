@@ -2,20 +2,20 @@ apply plugin: 'maven'
 
 task buildNewPom << {
     pom {
-        project {
 
-        }
+        // add whatever you want
 
         withXml {
 
             // for dependencies and exclusions
-
             def dependenciesNode = asNode().appendNode('dependencies')
             configurations.compile.allDependencies.each { ModuleDependency dp ->
                 def dependencyNode = dependenciesNode.appendNode('dependency')
                 dependencyNode.appendNode('groupId', dp.group)
                 dependencyNode.appendNode('artifactId', dp.name)
                 dependencyNode.appendNode('version', dp.version)
+
+                // for exclusions
                 if (dp.excludeRules.size() > 0) {
                     def exclusions = dependencyNode.appendNode('exclusions')
                     dp.excludeRules.each { ExcludeRule ex ->
